@@ -1,11 +1,8 @@
-package com.example.demo;
+package com.example.demo.until;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.MyEntity;
-import com.example.demo.schedule.MyfirstSchedule;
-import com.example.demo.until.HttpClientUntil;
 import org.apache.http.HttpEntity;
-import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -13,52 +10,29 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.apache.logging.log4j.util.Strings;
 
 import java.io.IOException;
-import java.util.Scanner;
 
-@SpringBootTest("DemoApplication")
-class DemoApplicationTests {
+import java.text.ParseException;
 
-    @Autowired
-    JavaMailSenderImpl javaMailSender;
+public class HttpClientUntil {
 
-    @Test
-    @Scheduled(cron = "0/59 * * * * ? ")
-    void contextLoads() {
-        SimpleMailMessage msg=new SimpleMailMessage();
-        msg.setSubject("测试主题");
-        msg.setText("测试内容");
-        msg.setTo("1430365719@qq.com");
-        msg.setFrom("wwjx0791@163.com");
-        javaMailSender.send(msg);
-        System.out.println("发送成功");
-    }
+    public static CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-    public static void main(String[] args) {
-        Scanner scanner=new Scanner(System.in);
-        String mailNo = scanner.next();
-        test(mailNo);
-    }
-
-    @Test
-   static void test(String mailNo){
+    public static <T>Object get(String url, Class<T> t){
         // 获得Http客户端(可以理解为:你得先有一个浏览器;注意:实际上HttpClient与浏览器是不一样的)
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
         //String mailNo="9862120028918";
         // 参数
-        StringBuffer params = new StringBuffer();
+       // StringBuffer params = new StringBuffer();
         // 字符数据最好encoding以下;这样一来，某些特殊字符才能传过去(如:某人的名字就是“&”,不encoding的话,传不过去)
-        params.append("mailNo="+mailNo/*+"&spellName=&exp-textName=&tk=312ebcf5&tm=1598243961139&callback=_jqjsp&_1598243961140="*/);
+       // params.append("mailNo="+mailNo/*+"&spellName=&exp-textName=&tk=312ebcf5&tm=1598243961139&callback=_jqjsp&_1598243961140="*/);
 
         // 创建Get请求
-        HttpGet httpGet = new HttpGet("https://biz.trace.ickd.cn/auto/" + mailNo+"?" + params);
+       // HttpGet httpGet = new HttpGet("https://biz.trace.ickd.cn/auto/" + mailNo+"?" + params);
+        String s = null;
+        HttpGet httpGet = new HttpGet(url);
         // 响应模型
         CloseableHttpResponse response = null;
         try {
@@ -83,15 +57,9 @@ class DemoApplicationTests {
             HttpEntity responseEntity = response.getEntity();
             System.out.println("响应状态为:" + response.getStatusLine());
             if (responseEntity != null) {
-                String s = EntityUtils.toString(responseEntity);
-                System.out.println("响应内容长度为:" + responseEntity.getContentLength());
-                System.out.println("响应内容为:" + s);
-                System.out.println(s.replace("_jqjsp(","").replace(")",""));
-                System.out.println(JSONObject.parseObject(s.replace("_jqjsp(","").replace(")","").replace(";",""),MyEntity.class));
+                s = EntityUtils.toString(responseEntity);
             }
         } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,13 +76,9 @@ class DemoApplicationTests {
                 e.printStackTrace();
             }
         }
-
+        if(Strings.isNotEmpty(s)){
+           return JSONObject.parseObject(s,t);
+        }
+        return null;
     }
-
-    @Test
-    void unitlTest(){
-        MyEntity o = (MyEntity) HttpClientUntil.get("https://biz.trace.ickd.cn/auto/9862120028918?mailNo=9862120028918", MyEntity.class);
-        System.out.println(o);
-    }
-
 }
