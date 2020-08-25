@@ -73,7 +73,6 @@ public class HttpClientUtil {
             }
         } catch (Exception e) {
             logger.info("请求失败!");
-            logger.error(ExceptionUtils.getStackTrace(e));
         } finally {
             // 释放连接
             if (null != httpGet) {
