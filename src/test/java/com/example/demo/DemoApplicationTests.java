@@ -2,8 +2,7 @@ package com.example.demo;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.MyEntity;
-import com.example.demo.schedule.MyfirstSchedule;
-import com.example.demo.until.HttpClientUntil;
+import com.example.demo.until.HttpClientUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -109,12 +108,6 @@ class DemoApplicationTests {
             }
         }
 
-    }
-
-    @Test
-    void unitlTest(){
-        MyEntity o = (MyEntity) HttpClientUntil.get("https://biz.trace.ickd.cn/auto/9862120028918?mailNo=9862120028918", MyEntity.class);
-        System.out.println(o);
     }
 
 }
