@@ -1,6 +1,6 @@
 package com.example.demo.notes;
 
-import com.example.demo.entity.CheckSumBuilder;
+import com.example.demo.until.CheckSumBuilder;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -22,15 +22,15 @@ public class SendCodeSecond {
             SERVER_URL = "https://api.netease.im/sms/sendtemplate.action";
     //网易云信分配的账号，请替换你在管理后台应用下申请的Appkey
     private static final String
-            APP_KEY = "fd460d34e786e7754e505bc4fab0f027";
+            APP_KEY = "7f3d1b55333b8664d45c3fa63e385fe4";
     //网易云信分配的密钥，请替换你在管理后台应用下申请的appSecret
-    private static final String APP_SECRET = "xxxxxxxx";
+    private static final String APP_SECRET = "d71c21d78b71";
     //随机数
     private static final String NONCE = "123456";
     //短信模板ID
     private static final String TEMPLATEID = "3057527";
     //手机号，接收者号码列表，JSONArray格式，限制接收者号码个数最多为100个
-    private static final String MOBILES = "['13888888888','13666666666']";
+    private static final String MOBILES = "['18720953041']";
     //短信参数列表，用于依次填充模板，JSONArray格式，每个变量长度不能超过30字,对于不包含变量的模板，不填此参数表示模板即短信全文内容
     private static final String PARAMS = "['xxxx','xxxx']";
 

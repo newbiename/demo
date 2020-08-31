@@ -29,7 +29,7 @@ class DemoApplicationTests {
     JavaMailSenderImpl javaMailSender;
 
     @Test
-    @Scheduled(cron = "0/59 * * * * ? ")
+   // @Scheduled(cron = "0/59 * * * * ? ")
     void contextLoads() {
         SimpleMailMessage msg=new SimpleMailMessage();
         msg.setSubject("测试主题");
@@ -42,8 +42,8 @@ class DemoApplicationTests {
 
     public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
-        String mailNo = scanner.next();
-        test(mailNo);
+        Integer mailNo = Integer.valueOf(scanner.next());
+        testLogic(mailNo);
     }
 
     @Test
@@ -108,6 +108,13 @@ class DemoApplicationTests {
             }
         }
 
+    }
+
+    public static void testLogic(Integer mailNo){
+        System.out.println(mailNo^(mailNo-1));
+        System.out.println(mailNo&mailNo-1);
+        System.out.println(mailNo|mailNo-1);
+        System.out.println((mailNo&(mailNo-1))==0?true:false);
     }
 
 }

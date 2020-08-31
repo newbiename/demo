@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.example.demo.entity.CheckSumBuilder;
+import com.example.demo.until.CheckSumBuilder;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
