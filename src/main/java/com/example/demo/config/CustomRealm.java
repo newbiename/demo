@@ -1,10 +1,12 @@
 package com.example.demo.config;
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;

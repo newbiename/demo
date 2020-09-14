@@ -3,18 +3,20 @@ package com.example.demo.config;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-//@Configuration
+@Configuration
 public class MyShrioConfig {
     @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager((org.apache.shiro.mgt.SecurityManager) securityManager);
-        shiroFilterFactoryBean.setLoginUrl("/login");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        shiroFilterFactoryBean.setLoginUrl("/login/login");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/login/login");
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/webjars/**", "anon");
@@ -22,7 +24,7 @@ public class MyShrioConfig {
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/front/**", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");
-
+        filterChainDefinitionMap.put("/rabbitmq/**", "anon");
         filterChainDefinitionMap.put("/admin/**", "authc");
         filterChainDefinitionMap.put("/user/**", "authc");
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截 剩余的都需要认证
@@ -32,7 +34,7 @@ public class MyShrioConfig {
 
     }
 
-    @Bean
+    @Bean("securityManager")
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager defaultSecurityManager = new DefaultWebSecurityManager();
         defaultSecurityManager.setRealm(customRealm());
